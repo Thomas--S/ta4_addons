@@ -22,3 +22,9 @@ ta4_addons.S = minetest.get_translator("ta4_addons")
 local MP = minetest.get_modpath("ta4_addons")
 
 dofile(MP.."/touchscreen/main.lua") -- Touchscreen
+
+dofile(MP.."/manual_DE.lua") -- Techage Manual DE
+dofile(MP.."/manual_EN.lua") -- Techage Manual EN
+
+
+techage.add_manual_items({ta4_addons_touchscreen = "ta4_addons_touchscreen_inventory.png"})

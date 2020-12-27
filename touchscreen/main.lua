@@ -35,6 +35,115 @@ local function parse_payload(payload)
 		local name = get_value(payload, "name", "button")
 		local label = get_value(payload, "label", "Button")
 		return "button["..x..","..y..";"..w..","..h..";"..name..";"..label.."]"
+	elseif element_type == "label" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local label = get_value(payload, "label", "Label")
+		return "label["..x..","..y..";"..label.."]"
+	elseif element_type == "image" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 1)
+		local h = get_value(payload, "h", 1)
+		local texture_name = get_value(payload, "texture_name", "default_apple.png")
+		return "image["..x..","..y..";"..w..","..h..";"..texture_name.."]"
+	elseif element_type == "animated_image" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 1)
+		local h = get_value(payload, "h", 1)
+		local name = get_value(payload, "name", "animated_image")
+		local texture_name = get_value(payload, "texture_name", "default_apple.png")
+		local frame_count = get_value(payload, "frame_count", 1)
+		local frame_duration = get_value(payload, "frame_duration", 1000)
+		local frame_start = get_value(payload, "frame_start", 1)
+		return "animated_image["..x..","..y..";"..w..","..h..";"..name..";"..texture_name..";"..frame_count..";"..frame_duration..";"..frame_start.."]"
+	elseif element_type == "item_image" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 1)
+		local h = get_value(payload, "h", 1)
+		local item_name = get_value(payload, "item_name", "default:apple")
+		return "item_image["..x..","..y..";"..w..","..h..";"..item_name.."]"
+	elseif element_type == "pwdfield" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 2)
+		local h = get_value(payload, "h", 1)
+		local name = get_value(payload, "name", "pwdfield")
+		local label = get_value(payload, "label", "Password")
+		return "pwdfield["..x..","..y..";"..w..","..h..";"..name..";"..label.."]"
+	elseif element_type == "field" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 2)
+		local h = get_value(payload, "h", 1)
+		local name = get_value(payload, "name", "field")
+		local label = get_value(payload, "label", "Input")
+		local default = get_value(payload, "default", ""):gsub("%${", "$ {") -- To prevent reading metadata
+		return "field["..x..","..y..";"..w..","..h..";"..name..";"..label..";"..default.."]"
+	elseif element_type == "field_close_on_enter" then
+		local name = get_value(payload, "name", "field")
+		local close_on_enter = get_value(payload, "close_on_enter", "false")
+		return "field_close_on_enter["..name..";"..close_on_enter"]"
+	elseif element_type == "textarea" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 2)
+		local h = get_value(payload, "h", 1)
+		local name = get_value(payload, "name", "")
+		local label = get_value(payload, "label", "Textarea")
+		local default = get_value(payload, "default", ""):gsub("%${", "$ {") -- To prevent reading metadata
+		return "textarea["..x..","..y..";"..w..","..h..";"..name..";"..label..";"..default.."]"
+	elseif element_type == "image_button" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 1)
+		local h = get_value(payload, "h", 1)
+		local texture_name = get_value(payload, "texture_name", "default_apple.png")
+		local name = get_value(payload, "name", "image_button")
+		local label = get_value(payload, "label", "")
+		return "image_button["..x..","..y..";"..w..","..h..";"..texture_name..";"..name..";"..label.."]"
+	elseif element_type == "item_image_button" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 1)
+		local h = get_value(payload, "h", 1)
+		local item_name = get_value(payload, "item_name", "default:apple")
+		local name = get_value(payload, "name", "item_image_button")
+		local label = get_value(payload, "label", "")
+		return "item_image_button["..x..","..y..";"..w..","..h..";"..item_name..";"..name..";"..label.."]"
+	elseif element_type == "button_exit" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 2)
+		local h = get_value(payload, "h", 1)
+		local name = get_value(payload, "name", "button_exit")
+		local label = get_value(payload, "label", "Exit Button")
+		return "button_exit["..x..","..y..";"..w..","..h..";"..name..";"..label.."]"
+	elseif element_type == "image_button_exit" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 1)
+		local h = get_value(payload, "h", 1)
+		local texture_name = get_value(payload, "texture_name", "creative_clear_icon.png")
+		local name = get_value(payload, "name", "image_button")
+		local label = get_value(payload, "label", "")
+		return "image_button_exit["..x..","..y..";"..w..","..h..";"..texture_name..";"..name..";"..label.."]"
+	elseif element_type == "box" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local w = get_value(payload, "w", 2)
+		local h = get_value(payload, "h", 1)
+		local color = get_value(payload, "color", "")
+		return "box["..x..","..y..";"..w..","..h..";"..color.."]"
+	elseif element_type == "checkbox" then
+		local x = get_value(payload, "x", 1)
+		local y = get_value(payload, "y", 1)
+		local name = get_value(payload, "name", "checkbox")
+		local label = get_value(payload, "label", "")
+		local selected = get_value(payload, "selected", "false")
+		return "checkbox["..x..","..y..";"..name..";"..label..";"..selected.."]"
 	end
 end
 
