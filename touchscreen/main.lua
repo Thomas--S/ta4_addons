@@ -260,7 +260,7 @@ minetest.register_node("ta4_addons:touchscreen", {
 	after_place_node = function(pos, placer)
 		local number = techage.add_node(pos, "ta4_addons:touchscreen")
 		local meta = M(pos)
-		meta:set_string("number", number)
+		meta:set_string("node_number", number)
 		meta:set_string("infotext", S("Touchscreen no: ")..number)
 		update_fs(pos)
 		local nvm = techage.get_nvm(pos)
