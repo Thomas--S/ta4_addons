@@ -11,6 +11,50 @@ Currently, the following devices are implemented:
 Copyright (C) 2020 Joachim Stolberg  
 Copyright (C) 2020 Thomas-S
 
+## Example Program for the Lua Controller
+
+**Init:**
+
+```lua
+$events(true)
+$loopcycle(0)
+
+TOUCHSCREEN_NUM = 338
+
+counter = 1
+
+$send_cmnd(TOUCHSCREEN_NUM, "remove_content")
+
+res = $send_cmnd(TOUCHSCREEN_NUM, "add_content", Store("type", "button", "w", 5, "label", counter))
+res2 = $send_cmnd(TOUCHSCREEN_NUM, "add_content", Store("type", "button", "w", 5, "y", 2, "label", counter))
+
+$print("ID: "..res)
+```
+
+**Loop:**
+
+```lua
+local num,msg = $get_msg(true)
+
+if num == tostring(TOUCHSCREEN_NUM) and msg.next then
+    for k,v in msg.next() do
+        if k == "button" then
+            counter = counter + 1
+            $print(res)
+            $send_cmnd(TOUCHSCREEN_NUM, "update_content", Store("type", "button", "w", "5", "label", counter, "id", res))
+            if counter > 10 then
+                $send_cmnd(TOUCHSCREEN_NUM, "remove_content", Store("id", res2))
+            else
+                $send_cmnd(TOUCHSCREEN_NUM, "update_content", Store("type", "button", "w", "5", "y", 2, "label", counter, "id", res2))
+            end
+        end
+        $print(k..": "..v)
+        $display(TOUCHSCREEN_NUM, 0, k)
+        $display(TOUCHSCREEN_NUM, 0, v)
+    end
+end
+```
+
 ### Code
 Licensed under the GNU AGPL version 3 or later. See `LICENSE.txt`.
 

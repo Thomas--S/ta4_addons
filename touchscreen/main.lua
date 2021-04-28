@@ -273,6 +273,15 @@ minetest.register_node("ta4_addons:touchscreen", {
 		remove_content(pos)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
+	
+	on_rightclick = function(pos, node, clicker)
+		local meta = M(pos)
+		local ctrl = meta:get_string("ctrl")
+		if ctrl then
+			local own_num = meta:get_string("node_number") or ""
+			techage.send_single(own_num, ctrl, "msg", safer_lua.Store("_touchscreen_opened_by", clicker:get_player_name()))
+		end
+	end,
 
 	on_receive_fields = function(pos, formname, fields, sender)
 		local meta = M(pos)

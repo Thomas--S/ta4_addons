@@ -29,6 +29,9 @@ techage.add_to_manual('EN', {
   "Please do not forget the \"true\" value as first parameter\\; otherwise you'll only get access to the string representation of the message.\n"..
   "\n"..
   "The form is rendered by using formspec version 3 (real coordinates enabled)\\, so please use a recent Minetest client version.\n"..
+  "\n"..
+  "When someone opens the touchscreen\\, a message will be sent to the controller.\n"..
+  "This message contains a Store\\, in which the field \"_touchscreen_opened_by\" is set to the respective player name.\n"..
   "\n",
   "\n"..
   "\n"..

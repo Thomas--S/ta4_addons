@@ -29,6 +29,9 @@ techage.add_to_manual('DE', {
   "Der Wert \"true\" für den ersten Parameter darf dabei nicht vergessen werden\\; ansonsten wird nur die String-Repräsentation der Nachricht zurückgegeben.\n"..
   "\n"..
   "Das Formular wird mit der Formspec Version 3 angezeigt (real coordinates aktiviert). Es wird also dringend empfohlen\\, eine aktuelle Minetest Client-Version zu verwenden.\n"..
+  "\n"..
+  "Wenn der Touchscreen geöffnet wird\\, wird eine Nachricht an den Controller gesendet.\n"..
+  "Diese Nachricht enthält einen Store\\, in dem das Feld \"_touchscreen_opened_by\" auf den jeweiligen Spielername gesetzt ist.\n"..
   "\n",
   "\n"..
   "\n"..

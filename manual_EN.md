@@ -28,6 +28,9 @@ Please do not forget the "true" value as first parameter; otherwise you'll only 
 
 The form is rendered by using formspec version 3 (real coordinates enabled), so please use a recent Minetest client version.
 
+When someone opens the touchscreen, a message will be sent to the controller.
+This message contains a Store, in which the field "_touchscreen_opened_by" is set to the respective player name.
+
 ### Supported Elements and their properties
 
 [ta4_addons_touchscreen|image]
