@@ -23,6 +23,7 @@ es wird aber dringend empfohlen, immer selbst die gewünschten Werte explizit zu
 
 Wenn das Formular abgesendet wird, wird eine Store-Struktur an den Controller als Nachricht zurückgesandt.
 Diese Datenstruktur beinhaltet alle Felder, die im on_receive_fields callback von Minetest verfügbar sind.
+Zusätzlich ist im Feld "_sent_by" der Name des Absenders hinterlegt.
 Mittels der Lua-Controller-Funktion $get_msg(true) kann auf diese Store-Struktur zugegriffen werden.
 Der Wert "true" für den ersten Parameter darf dabei nicht vergessen werden; ansonsten wird nur die String-Repräsentation der Nachricht zurückgegeben.
 

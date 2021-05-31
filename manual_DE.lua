@@ -25,6 +25,7 @@ techage.add_to_manual('DE', {
   "\n"..
   "Wenn das Formular abgesendet wird\\, wird eine Store-Struktur an den Controller als Nachricht zurückgesandt.\n"..
   "Diese Datenstruktur beinhaltet alle Felder\\, die im on_receive_fields callback von Minetest verfügbar sind.\n"..
+  "Zusätzlich ist im Feld \"_sent_by\" der Name des Absenders hinterlegt.\n"..
   "Mittels der Lua-Controller-Funktion $get_msg(true) kann auf diese Store-Struktur zugegriffen werden.\n"..
   "Der Wert \"true\" für den ersten Parameter darf dabei nicht vergessen werden\\; ansonsten wird nur die String-Repräsentation der Nachricht zurückgegeben.\n"..
   "\n"..

@@ -25,6 +25,7 @@ techage.add_to_manual('EN', {
   "\n"..
   "On formspec submit\\, a Store is sent back to the controller as message.\n"..
   "The fields as available in the Minetest on_receive_fields callbacks are set in this store.\n"..
+  "The field \"_sent_by\" contains the sender's name.\n"..
   "You can access this store by using the $get_msg(true) function of the Lua Controller.\n"..
   "Please do not forget the \"true\" value as first parameter\\; otherwise you'll only get access to the string representation of the message.\n"..
   "\n"..

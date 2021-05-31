@@ -23,6 +23,7 @@ but it is strongly suggested to always provide the values by yourself as the def
 
 On formspec submit, a Store is sent back to the controller as message.
 The fields as available in the Minetest on_receive_fields callbacks are set in this store.
+The field "_sent_by" contains the sender's name.
 You can access this store by using the $get_msg(true) function of the Lua Controller.
 Please do not forget the "true" value as first parameter; otherwise you'll only get access to the string representation of the message.
 

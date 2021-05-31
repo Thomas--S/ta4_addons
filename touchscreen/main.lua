@@ -285,13 +285,15 @@ minetest.register_node("ta4_addons:touchscreen", {
 
 	on_receive_fields = function(pos, formname, fields, sender)
 		local meta = M(pos)
-		if meta:get_string("public") ~= "true" and minetest.is_protected(pos, sender:get_player_name()) then
+		local player_name = sender:get_player_name()
+		if meta:get_string("public") ~= "true" and minetest.is_protected(pos, player_name) then
 			return
 		end
 		local fields_store = safer_lua.Store()
 		for k,v in pairs(fields) do
 			fields_store.set(k, v)
 		end
+		fields_store.set("_sent_by", player_name)
 		local ctrl = meta:get_string("ctrl")
 		if ctrl then
 			local own_num = meta:get_string("node_number") or ""
