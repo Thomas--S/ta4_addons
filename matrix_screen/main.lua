@@ -251,6 +251,12 @@ minetest.register_craft({
 
 techage.register_node({"ta4_addons:matrix_screen"}, {
     on_recv_message = function(pos, src, topic, payload)
+        local mem = techage.get_mem(pos)
+        local now = techage.SystemTime
+        if (mem.last_message or 0) + .5 > now then
+            return
+        end
+        mem.last_message = now
         if topic == "pixels" then  -- add one line and scroll if necessary
             N(pos).color_string = tostring(payload)
             lcdlib.update_entities(pos)
