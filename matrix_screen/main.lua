@@ -253,15 +253,13 @@ techage.register_node({"ta4_addons:matrix_screen"}, {
     on_recv_message = function(pos, src, topic, payload)
         local mem = techage.get_mem(pos)
         local now = techage.SystemTime
-        if (mem.last_message or 0) + .5 > now then
-            return
-        end
-        mem.last_message = now
-        if topic == "pixels" then  -- add one line and scroll if necessary
+        if topic == "pixels" and (mem.last_pixels_message or 0) + .5 < now then  -- add one line and scroll if necessary
             N(pos).color_string = tostring(payload)
+            mem.last_pixels_message = now
             lcdlib.update_entities(pos)
-        elseif topic == "palette" then
+        elseif topic == "palette" and (mem.last_palette_message or 0) + .5 < now then
             N(pos).palette = tostring(payload)
+            mem.last_palette_message = now
             lcdlib.update_entities(pos)
         end
     end,
