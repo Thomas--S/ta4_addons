@@ -180,12 +180,15 @@ local function string_to_table(input_string)
     return t
 end
 
+ta4_addons.base64_to_texture = function(color_string, palette)
+    return generate_texture_from_color_list(string_to_colors(color_string, palette))
+end
+
 local function update_matrix_display(pos, objref)
     pos = vector.round(pos)
     local nvm = N(pos)
-    local colors = string_to_colors(nvm.color_string or "", nvm.palette)
     objref:set_properties({
-        textures = { generate_texture_from_color_list(colors) },
+        textures = { ta4_addons.base64_to_texture(nvm.color_string or "", nvm.palette) },
     })
 end
 
