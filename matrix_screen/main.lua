@@ -226,7 +226,7 @@ minetest.register_node("ta4_addons:matrix_screen", {
                         .. "wwxxyyzz00112233wwxxyyzz00112233"
                         .. "445566778899++//445566778899++//"
         lcdlib.update_entities(pos)
-        minetest.get_node_timer(pos):start(1)
+        minetest.get_node_timer(pos):start(2)
     end,
 
     after_dig_node = function(pos, oldnode, oldmetadata)
@@ -255,15 +255,16 @@ minetest.register_craft({
 techage.register_node({"ta4_addons:matrix_screen"}, {
     on_recv_message = function(pos, src, topic, payload)
         local mem = techage.get_mem(pos)
-        local now = techage.SystemTime
-        if topic == "pixels" and (mem.last_pixels_message or 0) + .5 < now then  -- add one line and scroll if necessary
+        mem.ticks = mem.ticks or 0
+
+        if mem.ticks == 0 then
+            mem.ticks = 1
+        end
+
+        if topic == "pixels" then
             N(pos).color_string = tostring(payload)
-            mem.last_pixels_message = now
-            lcdlib.update_entities(pos)
-        elseif topic == "palette" and (mem.last_palette_message or 0) + .5 < now then
+        elseif topic == "palette" then
             N(pos).palette = tostring(payload)
-            mem.last_palette_message = now
-            lcdlib.update_entities(pos)
         end
     end,
 })
@@ -339,6 +340,15 @@ minetest.register_node("ta4_addons:matrix_screen_programmer", {
         update_fs(pos)
         M(pos):set_string("infotext", S("TA4 Matrix Screen Programmer"))
     end,
+    after_place_node = function(pos, placer)
+        local number = techage.add_node(pos, "ta4_addons:matrix_screen_programmer")
+        local meta = M(pos)
+        meta:set_string("node_number", number)
+        meta:set_string("infotext", S("Matrix Screen Programmer ")..number)
+    end,
+    after_dig_node = function(pos, oldnode, oldmetadata)
+        techage.remove_node(pos, oldnode, oldmetadata)
+    end,
     groups = {cracky=2, crumbly=2},
     is_ground_content = false,
     sounds = default.node_sound_metal_defaults(),
@@ -367,14 +377,29 @@ minetest.register_node("ta4_addons:matrix_screen_programmer", {
         end
         if fields.send_cmnd and fields.target and techage.check_numbers(fields.target, player_name) then
             nvm.target = fields.target
-            techage.send_multi("0", fields.target, "palette", nvm.palette or "rgb6bit")
-            techage.send_multi("0", fields.target, "pixels", generate_base64(nvm))
+            local own_number = M(pos):get_string("node_number")
+            if not own_number or own_number == "" then
+                own_number = "0"
+            end
+            techage.send_multi(own_number, fields.target, "palette", nvm.palette or "rgb6bit")
+            techage.send_multi(own_number, fields.target, "pixels", generate_base64(nvm))
         end
         if fields.palette then
             nvm.palette = fields.palette
         end
         update_fs(pos)
     end
+})
+
+techage.register_node({"ta4_addons:matrix_screen_programmer"}, {
+    on_recv_message = function(pos, src, topic, payload)
+        local nvm = N(pos)
+        if topic == "on" then
+            local own_number = M(pos):get_string("node_number")
+            techage.send_multi(own_number, nvm.target, "pixels", generate_base64(nvm))
+            techage.send_multi(own_number, nvm.target, "palette", nvm.palette or "rgb6bit")
+        end
+    end,
 })
 
 minetest.register_craft({
