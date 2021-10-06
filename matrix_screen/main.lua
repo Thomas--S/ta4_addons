@@ -28,7 +28,7 @@ local function letter_to_idx(letter)
 end
 
 local palettes = {
-    "rgb6bit", "resurrect64", "aap64", "sweet_canyon_extended", "endesga64"
+    "rgb6bit",-- "resurrect64", "aap64", "sweet_canyon_extended", "endesga64"
 }
 
 local palettes_to_idx = {}
@@ -117,15 +117,15 @@ local function endesga64(idx)
 end
 
 local function get_palette(palette_name)
-    if palette_name == "resurrect64" then
-        return resurrect64
-    elseif palette_name == "aap64" then
-        return aap64
-    elseif palette_name == "sweet_canyon_extended" then
-        return sweet_canyon_extended
-    elseif palette_name == "endesga64" then
-        return endesga64
-    end
+    --if palette_name == "resurrect64" then
+    --    return resurrect64
+    --elseif palette_name == "aap64" then
+    --    return aap64
+    --elseif palette_name == "sweet_canyon_extended" then
+    --    return sweet_canyon_extended
+    --elseif palette_name == "endesga64" then
+    --    return endesga64
+    --end
     return rgb6bit
 end
 
@@ -164,6 +164,22 @@ local function generate_texture_from_color_list(colors)
     return texture.."^[resize:128x128^ta4_addons_matrix_screen_overlay.png"
 end
 
+local function generate_texture_from_indices(indices)
+    local texture = "[combine:16x16:0,0=px_bg.png"
+    local x, y = 0, 0
+    for _,index in ipairs(indices) do
+        if index ~=1 then
+            texture = texture..":"..x..","..y.."=px"..index..".png"
+        end
+        x = x + 1
+        if x >= 16 then
+            x = 0
+            y = y + 1
+        end
+    end
+    return texture.."^[resize:128x128^ta4_addons_matrix_screen_overlay.png"
+end
+
 local function string_to_table(input_string)
     local indices = string_to_indices(input_string)
     local t = {}
@@ -181,7 +197,8 @@ local function string_to_table(input_string)
 end
 
 ta4_addons.base64_to_texture = function(color_string, palette)
-    return generate_texture_from_color_list(string_to_colors(color_string, palette))
+    --return generate_texture_from_color_list(string_to_colors(color_string, palette))
+    return generate_texture_from_indices(string_to_indices(color_string))
 end
 
 local function update_matrix_display(pos, objref)
