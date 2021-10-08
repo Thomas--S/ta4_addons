@@ -151,25 +151,37 @@ local function string_to_colors(input_string, palette_name)
 end
 
 local function generate_texture_from_color_list(colors)
-    local texture = "[combine:16x16"
+    local texture = {"[combine:16x16"}
     local x, y = 0, 0
     for _,color in ipairs(colors) do
-        texture = texture..":"..x..","..y.."=px.png\\^[colorize\\:#"..color
+        texture[#texture+1] = ":"
+        texture[#texture+1] = x
+        texture[#texture+1] = ","
+        texture[#texture+1] = y
+        texture[#texture+1] = "=px.png\\^[colorize\\:#"
+        texture[#texture+1] = color
         x = x + 1
         if x >= 16 then
             x = 0
             y = y + 1
         end
     end
-    return texture.."^[resize:128x128^ta4_addons_matrix_screen_overlay.png"
+    texture[#texture+1] = "^[resize:128x128^ta4_addons_matrix_screen_overlay.png"
+    return table.concat(texture, "")
 end
 
 local function generate_texture_from_indices(indices)
-    local texture = "[combine:16x16:0,0=px_bg.png"
+    local texture = {"[combine:16x16:0,0=px_bg.png"}
     local x, y = 0, 0
     for _,index in ipairs(indices) do
         if index ~=1 then
-            texture = texture..":"..x..","..y.."=px"..index..".png"
+            texture[#texture+1] = ":"
+            texture[#texture+1] = x
+            texture[#texture+1] = ","
+            texture[#texture+1] = y
+            texture[#texture+1] = "=px"
+            texture[#texture+1] = index
+            texture[#texture+1] = ".png"
         end
         x = x + 1
         if x >= 16 then
@@ -177,7 +189,8 @@ local function generate_texture_from_indices(indices)
             y = y + 1
         end
     end
-    return texture.."^[resize:128x128^ta4_addons_matrix_screen_overlay.png"
+    texture[#texture+1] = "^[resize:128x128^ta4_addons_matrix_screen_overlay.png"
+    return table.concat(texture, "")
 end
 
 local function string_to_table(input_string)
