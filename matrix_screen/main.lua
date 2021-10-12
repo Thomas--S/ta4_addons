@@ -440,3 +440,14 @@ minetest.register_craft({
         {"default:steel_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
     },
 })
+
+if techage.repair_number then
+    minetest.register_lbm({
+        label = "Fix lost techage numbers for matrix screens",
+        name = "ta4_addons:repair_matrix_screen_numbers",
+        nodenames = {"ta4_addons:matrix_screen", "ta4_addons:matrix_screen_programmer"},
+        action = function(pos, node)
+            techage.repair_number(pos)
+        end
+    })
+end
