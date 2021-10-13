@@ -451,3 +451,12 @@ if techage.repair_number then
         end
     })
 end
+
+minetest.register_lbm({
+    label = "Fix lost timer for matrix screens",
+    name = "ta4_addons:repair_matrix_screen_timer",
+    nodenames = {"ta4_addons:matrix_screen"},
+    action = function(pos, node)
+        minetest.get_node_timer(pos):start(2)
+    end
+})
