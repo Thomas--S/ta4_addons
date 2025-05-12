@@ -85,7 +85,7 @@ local function parse_payload(payload)
     elseif element_type == "field_close_on_enter" then
         local name = get_value(payload, "name", "field")
         local close_on_enter = get_value(payload, "close_on_enter", "false")
-        return "field_close_on_enter["..name..";"..close_on_enter"]"
+        return "field_close_on_enter["..name..";"..close_on_enter.."]"
     elseif element_type == "textarea" then
         local x = get_value(payload, "x", 1)
         local y = get_value(payload, "y", 1)
